@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Estatísticas Mensais de Vendas</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+            color: #ffffff;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #000000;
+        }
+        button {
+            background-color: #4169E1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            width: 200px;
+            margin: 5px;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #3152a1;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .table-container {
+            flex: 1;
+        }
+        .chart-container {
+            flex: 1;
+            padding-left: 10px;
+        }
+        canvas {
+            max-width: 100%;
+            height: 300px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+
+    <h1>Estatísticas Mensais de Vendas</h1>
+    <h1> </h1>
+
+    <a href="{% url 'index' %}">
+        <button>RETORNAR À PÁGINA INICIAL</button>
+    </a>
+    <a href="{% url 'estatisticas_vendas' %}">
+        <button>VOLTAR À PÁGINA ANTERIOR</button>
+    </a>
+    <h1> </h1>
+    <form method="get">
+        <label for="ano">Selecione o ano:</label>
+        <select name="ano" id="ano">
+            <option value="2024" {% if ano == "2024" %}selected{% endif %}>2024</option>
+            <option value="2025" {% if ano == "2025" %}selected{% endif %}>2025</option>
+            <option value="2026" {% if ano == "2026" %}selected{% endif %}>2026</option>
+            <option value="2027" {% if ano == "2027" %}selected{% endif %}>2027</option>
+            <option value="2028" {% if ano == "2028" %}selected{% endif %}>2028</option>
+            <option value="2029" {% if ano == "2029" %}selected{% endif %}>2029</option>
+            <option value="2030" {% if ano == "2030" %}selected{% endif %}>2030</option>
+        </select>
+        <button type="submit">Visualizar Estatísticas</button>
+    </form>
+
+    {% if ano %}
+        <h2>Estatísticas para o ano: {{ ano }}</h2>
+        <p>Total de Vendas no Ano: R$ {{ total_vendas_ano|floatformat:2 }}</p>
+
+        <div class="container">
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Mês</th>
+                        <th>Total de Vendas</th>
+                    </tr>
+
+                    {% for mes, dados in vendas_mensais.items %}
+                        <tr>
+                            <td>{{ dados.nome_mes }}</td>
+                            <td>R$ {{ dados.total_vendas_mes|floatformat:2 }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">Nenhuma venda encontrada para o ano selecionado.</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="chart-container">
+                <h2>Evolução Mensal das Vendas</h2>
+                <canvas id="graficoVendasMes"></canvas>
+            </div>
+        </div>
+
+        <script>
+            const ctx = document.getElementById('graficoVendasMes').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [{% for mes, dados in vendas_mensais.items %} '{{ dados.nome_mes }}', {% endfor %}],
+                    datasets: [{
+                        label: 'Total de Vendas por Mês (R$)',
+                        data: [{% for mes, dados in vendas_mensais.items %} {{ dados.total_vendas_mes }}, {% endfor %}],
+                        backgroundColor: 'rgba(65, 105, 225, 0.6)',
+                        borderColor: 'rgba(65, 105, 225, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            color: '#fff',  // Cor do texto dos valores
+                            anchor: 'end',  // Alinhamento do valor no topo
+                            align: 'start', // Exibe o valor acima da barra
+                            formatter: function(value) {
+                                return 'R$ ' + value.toFixed(2);  // Formata o valor como moeda
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        </script>
+    {% else %}
+        <p>Selecione um ano para visualizar as estatísticas.</p>
+    {% endif %}
+
+    <div class="button-container">
+
+    </div>
+
+</body>
+</html>

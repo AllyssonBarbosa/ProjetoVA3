@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Produtos em Estoque</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        button {
+            background-color: #4169E1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            width: 200px;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #3152a1;
+        }
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .button-container a button {
+            width: 200px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #333333;
+        }
+        tr:nth-child(even) {
+            background-color: #444444;
+        }
+        tr:nth-child(odd) {
+            background-color: #555555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Produtos com baixo Estoque</h1>
+
+    <div class="button-container">
+        <a href="{% url 'index' %}">
+            <button>RETORNAR À PÁGINA INICIAL</button>
+        </a>
+        <a href="javascript:history.back()">
+            <button>VOLTA À PÁGINA ANTERIOR</button>
+        </a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Quantidade em Estoque</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="2"><h2>Produtos com 0 em Estoque</h2></td>
+            </tr>
+            {% for produto in produtos_0 %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>0</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">Nenhum produto com 0 em estoque</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td colspan="2"><h2>Produtos com 1 em Estoque</h2></td>
+            </tr>
+            {% for produto in produtos_1 %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>1</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">Nenhum produto com 1 em estoque</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td colspan="2"><h2>Produtos com 2 em Estoque</h2></td>
+            </tr>
+            {% for produto in produtos_2 %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>2</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">Nenhum produto com 2 em estoque</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td colspan="2"><h2>Produtos com 3 em Estoque</h2></td>
+            </tr>
+            {% for produto in produtos_3 %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>3</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">Nenhum produto com 3 em estoque</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td colspan="2"><h2>Produtos com 4 em Estoque</h2></td>
+            </tr>
+            {% for produto in produtos_4 %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>4</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">Nenhum produto com 4 em estoque</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td colspan="2"><h2>Produtos com 5 em Estoque</h2></td>
+            </tr>
+            {% for produto in produtos_5 %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>5</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">Nenhum produto com 5 em estoque</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

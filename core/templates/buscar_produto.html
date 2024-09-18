@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar Produtos</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            background-color: #4169E1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #3152a1;
+        }
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product-item {
+            background-color: #333333;
+            padding: 10px;
+            border-radius: 5px;
+            flex: 1 1 200px;
+            max-width: 300px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        h2, h3, p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Buscar Produtos</h1>
+    <a> ou então você pode:</a>
+    <a href="{% url 'index' %}">
+        <button>RETORNAR À PÁGINA INICIAL</button>
+    </a>
+
+    <form method="get" action="{% url 'buscar_produto' %}">
+        <label for="q_nome">Buscar por Nome:</label>
+        <input type="text" id="q_nome" name="q_nome" placeholder="Digite o nome do produto">
+        <button type="submit">BUSCAR</button>
+    </form>
+
+    <form method="get" action="{% url 'buscar_produto' %}">
+        <label for="q_id">Buscar por ID:</label>
+        <input type="number" id="q_id" name="q_id" placeholder="Digite o ID do produto">
+        <button type="submit">BUSCAR</button>
+    </form>
+
+    {% if produto_por_id %}
+
+        <h2>Detalhes do Produto por ID</h2>
+        <p>ID: {{ produto_por_id.id }}</p>
+        <p>Nome: {{ produto_por_id.nome }}</p>
+        <p>Valor: R$ {{ produto_por_id.valor }}</p>
+        <p>Quantidade: {{ produto_por_id.quantidade }}</p>
+        {% if not usuario_limitado %}
+        <a href="{% url 'modificar_produto' produto_por_id.id %}">
+            <button>ALTERAR</button>
+        </a>
+        {% endif %}
+        <a href="{% url 'realizar_venda' %}">
+            <button>VENDER</button>
+        </a>
+    {% endif %}
+
+    {% if produtos_por_nome %}
+
+        <h2>Resultados da Busca por Nome</h2>
+        <div class="product-list">
+            {% for produto in produtos_por_nome %}
+                <div class="product-item">
+                    <h3>ID: {{ produto.id }}</h3>
+                    <p>Nome: {{ produto.nome }}</p>
+                    <p>Valor: R$ {{ produto.valor }}</p>
+                    <p>Quantidade: {{ produto.quantidade }}</p>
+                    <div>
+                        {% if produto.foto %}
+                            <img src="{{ produto.foto.url }}" alt="{{ produto.nome }}">
+                        {% else %}
+                            Sem foto
+                        {% endif %}
+                    </div>
+                    {% if not usuario_limitado %}
+                    <form method="get" action="{% url 'modificar_produto' produto.id %}">
+                        <button type="submit">ALTERAR</button>
+                    </form>
+                    {% endif %}
+                    <a href="{% url 'realizar_venda' %}">
+                        <button>VENDER</button>
+                    </a>
+                </div>
+            {% empty %}
+                <p>Nenhum produto encontrado.</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
