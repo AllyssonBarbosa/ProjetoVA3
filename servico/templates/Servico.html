@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro de Serviço</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-container input, .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+        .form-container button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        .back-button {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Cadastro de Serviço</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Salvar</button>
+        </form>
+        <a href="{% url 'index' %}">
+            <button class="back-button" type="button">Retornar à Página Inicial</button>
+        </a>
+
+        <a href="{% url 'servico:Lista_servico' %}">
+            <button class="back-button" type="button">Lista de Serviços</button>
+        </a>
+    </div>
+</body>
+</html>

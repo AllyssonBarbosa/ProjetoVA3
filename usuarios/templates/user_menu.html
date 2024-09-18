@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu do Usuário</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            background-color: #4169E1; /* Azul Royal */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Menu do Usuário</h1>
+        <p>BEM-VINDO! {{ user.username }}</p>
+        <ul>
+            {% if user.is_superuser %}
+                <li><a href="{% url 'usuarios:cadastro' %}"><button>CADASTRAR USUÁRIO</button></a></li>
+                <li><a href="{% url 'usuarios:listar_usuarios' %}"><button>LISTAR USUÁRIOS</button></a></li>
+            {% endif %}
+            <li><a href="{% url 'usuarios:login' %}"><button>LOGIN</button></a></li>
+            <li><a href="{% url 'usuarios:logout' %}"><button>LOGOUT</button></a></li>
+            <li><a href="{% url 'index' %}"><button>RETORNAR À PÁGINA INICIAL</button></a></li>
+        </ul>
+    </center>
+</body>
+</html>

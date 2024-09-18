@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Usuários</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        table, th, td {
+            border: 1px solid white;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+        th {
+            background-color: #333333;
+        }
+        button {
+            background-color: #4169E1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #3152a1;
+        }
+        .button-group {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de Usuários</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Grupos</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>
+                    {% for grupo in usuario.groups.all %}
+                        {{ grupo.name }}<br>
+                    {% empty %}
+                        Nenhum grupo
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{% url 'usuarios:deletar_usuario' usuario.id %}">
+                        <button>Deletar</button>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Nenhum usuário encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="button-group">
+        <a href="{% url 'usuarios:cadastro' %}">
+            <button>Cadastrar Novo Usuário</button>
+        </a>
+
+
+        <a href="{% url 'usuarios:user_menu' %}">
+            <button>Voltar ao Menu de Usuário</button>
+        </a>
+    </div>
+</body>
+</html>

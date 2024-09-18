@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin: 20px auto;
+            width: 80%;
+        }
+        h1, h4 {
+            color: #ffffff;
+        }
+        form {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #4169E1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #3152a1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">ENTRAR</button>
+        </form>
+        <h3></h3>
+        <h4>Caso precise:</h4>
+        <a href="{% url 'usuarios:user_menu' %}">
+            <button>MENU ANTERIOR</button>
+        </a>
+        <h1></h1>
+        <a>ou então você pode:</a>
+        <h1></h1>
+        <a href="{% url 'index' %}">
+            <button>RETORNAR À PÁGINA INICIAL</button>
+        </a>
+    </div>
+</body>
+</html>

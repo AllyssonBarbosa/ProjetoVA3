@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Serviços</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        .servicos-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .servico-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            position: relative;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        .button-container a {
+            text-decoration: none;
+        }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-right: 10px;
+        }
+        .button-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .date {
+            font-size: 0.9em;
+            color: #bbb;
+        }
+    </style>
+    <script>
+        function confirmDeletion(event) {
+            if (!confirm("Você tem certeza que deseja excluir este serviço?")) {
+                event.preventDefault();
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="servicos-container">
+        <div class="button-container">
+            <a href="{% url 'servico:Servico' %}">
+                <button class="button" type="button">Retornar ao Menu de Serviços</button>
+            </a>
+            <a href="{% url 'index' %}">
+                <button class="button" type="button">Voltar à Página Inicial</button>
+            </a>
+        </div>
+        <h1>Lista de Serviços</h1>
+        {% for servico in servicos %}
+            <div class="servico-item">
+                <p><strong>Serviço Prestado:</strong> {{ servico.servico_prestado }}</p>
+                <p><strong>Valor Cobrado:</strong> {{ servico.valor_cobrado }}</p>
+                <p><strong>Data:</strong> <span class="date">{{ servico.data|date:"d/m/Y H:i:s" }}</span></p>
+                <p><strong>Usuário:</strong> {{ servico.usuario }}</p>
+                {% if user.is_superuser %}
+                    <form action="{% url 'servico:excluir_servico' servico.id %}" method="post" style="display:inline;" onsubmit="confirmDeletion(event)">
+                        {% csrf_token %}
+                        <button class="button button-delete" type="submit">Excluir Tarefa</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>Nenhum serviço encontrado.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

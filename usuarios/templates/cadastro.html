@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro de Usuário</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        button {
+            background-color: #4169E1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #3152a1;
+        }
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .button-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Novo Usuário</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.username.label_tag }}<br>
+            {{ form.username }}<br>
+            {{ form.username.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.email.label_tag }}<br>
+            {{ form.email }}<br>
+            {{ form.email.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label_tag }}<br>
+            {{ form.password }}<br>
+            {{ form.password.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.tipo_usuario.label_tag }}<br>
+            {{ form.tipo_usuario }}<br>
+            {{ form.tipo_usuario.errors }}
+        </div>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <div class="button-group">
+        <a href="{% url 'usuarios:listar_usuarios' %}">
+            <button>Voltar à Lista de Usuários</button>
+        </a>
+
+        <a href="{% url 'usuarios:user_menu' %}">
+            <button>Voltar ao Menu de Usuário</button>
+        </a>
+    </div>
+</body>
+</html>

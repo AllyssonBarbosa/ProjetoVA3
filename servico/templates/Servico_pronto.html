@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Serviço Concluído</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ffffff;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #333333;
+        }
+        button {
+            background-color: #4169E1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3152a1;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Serviço Concluído com Sucesso!</h1>
+
+        <h2>Lista de Serviços</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome do Serviço</th>
+                    <th>Valor Cobrado</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servico in servicos %}
+                <tr>
+                    <td>{{ servico.nome }}</td>
+                    <td>R$ {{ servico.valor_cobrado }}</td>
+                    <td>{{ servico.data }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">Nenhum serviço encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Resumo</h2>
+        <p><strong>Valor Total dos Serviços:</strong> R$ {{ valor_total|floatformat:2 }}</p>
+        <p><strong>Quantidade de Serviços no Mês:</strong> {{ quantidade_servicos_mes }}</p>
+
+        <a href="{% url 'servico:Servico' %}">
+            <button>Voltar ao Formulário de Serviço</button>
+        </a>
+    </center>
+</body>
+</html>
